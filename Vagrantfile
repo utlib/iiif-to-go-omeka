@@ -35,7 +35,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "setup/loris.sh"
 
   # Provision an empty Omeka 2.5 stable
-  config.vm.provision "shell", path: "opt-tools/omekash.sh", args: ["new", "main", "--branch", "stable-2.5", "--repo", "https://github.com/omeka/Omeka.git"]
+  config.vm.provision "file", source: "sql/omeka_main.sql", destination: "/tmp/omeka_main.sql"
+  config.vm.provision "shell", path: "setup/omeka.sh", args: ["/tmp/omeka_main.sql"]
   
   # Provision shared paths
   config.vm.synced_folder "web", "/var/www/html"
