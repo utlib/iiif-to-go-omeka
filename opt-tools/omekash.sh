@@ -5,6 +5,8 @@ rootuser="root"
 rootpass="password"
 httproot="/var/www/html"
 lorisroot="/usr/local/share/images"
+wwwuser="www-data"
+wwwgroup="www-data"
 
 # Functions
 function usagehint {
@@ -51,10 +53,17 @@ function omekanew {
 	>&2 echo "Downloading Omeka..."
 	git clone --branch "$branch" --recursive "$repo" "$targetdir" || fail
 	>&2 echo "Omeka downloaded."
+	
+	# Add IIIF Toolkit
+	>&2 echo "Downloading IIIF Toolkit for Omeka..."
+	tmpdir=`mktemp -d`
+	git clone https://github.com/utlib/IiifItems.git --recursive "$tmpdir/IiifItems"
+	mv -f "$tmpdir/IiifItems" "$targetdir/plugins"
+	rm -Rf "$tmpdir"
 
 	# Start configuring Omeka
 	>&2 echo -n "Configuring Omeka... "
-
+	
 	# Fill db.ini
 	dbini="${targetdir}/db.ini"
 	: > $dbini
@@ -93,6 +102,9 @@ function omekanew {
 	echo 'jobs.dispatcher.default="Omeka_Job_Dispatcher_Adapter_Synchronous"' >> $testsconfig
 	echo 'locale=""' >> $testsconfig
 
+	# Set permissions
+	chown -R "${wwwuser}:${wwwgroup}" "$targetdir"
+	
 	# Done configuring Omeka
 	>&2 echo "DONE"
 

@@ -45,7 +45,7 @@ useradd -d /var/www/loris2 -s /sbin/false loris
 # Image directory
 cd /opt/loris
 mkdir /usr/local/share/images
-cp -R tests/img/* /usr/local/share/images/
+mkdir /usr/local/share/images/synced
 
 # Install
 ./setup.py install
