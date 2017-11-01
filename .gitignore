@@ -1,3 +1,9 @@
 .DS_STORE
 .vagrant
 thumbs.db
+
+loris/*
+!loris/.gitkeep
+
+web/*
+!web/.gitkeep
