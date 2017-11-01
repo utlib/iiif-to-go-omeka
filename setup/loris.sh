@@ -30,7 +30,7 @@ pip install configobj
 pip install Pillow
 
 # WSGI
-apt-get install libapache2-mod-wsgi
+apt-get install -y libapache2-mod-wsgi
 
 # Loris packages
 cd /opt
