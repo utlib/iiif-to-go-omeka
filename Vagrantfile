@@ -27,6 +27,11 @@ Vagrant.configure("2") do |config|
   
   # Provision Apache from root
   config.vm.provision "shell", path: "setup/apache.sh"
+  config.vm.provision "file", source: "webseed", destination: "/home/vagrant/webseed"
+  config.vm.provision "shell", inline: <<-SHELL
+	cp -Rpf /home/vagrant/webseed/* /var/www/html
+	rm -Rf /home/vagrant/webseed
+  SHELL
   
   # Provision MySQL from root
   config.vm.provision "shell", path: "setup/mysql.sh", args: "password"
@@ -39,6 +44,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "setup/omeka.sh", args: ["/tmp/omeka_main.sql"]
   
   # Provision shared paths
-  config.vm.synced_folder "web", "/var/www/html"
-  config.vm.synced_folder "loris", "/usr/local/share/images/synced"
+  # config.vm.synced_folder "web", "/var/www/html"
+  # config.vm.synced_folder "loris", "/usr/local/share/images/synced"
 end

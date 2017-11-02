@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>IIIF in a Box is ready to go!</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="welcome/css/normalize.css">
+  <link rel="stylesheet" href="welcome/css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="welcome/images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+	  <div class="twelve columns" style="margin-top: 4em; text-align: center;">
+		<img src="welcome/images/iiif-in-a-box.png">
+		<h1>Welcome to IIIF in a Box!</h1>
+		<h4>Your virtual server has been set up with the following software:</h4>
+	  </div>
+    </div>
+	<div class="row">
+	  <div class="four columns">
+		<h3>Loris</h3>
+		<a href="https://github.com/loris-imageserver/loris"><img src="welcome/images/loris-logo.png" alt="Loris"></a>
+		<p>Loris is a full-featured IIIF image server. It can efficiently serve images at various scales, saving bandwidth for larger images and allowing them to be easily viewed by IIIF viewers such as Mirador and Universal Viewer</p>
+		<p>Drag additional files into the <tt>loris</tt> folder to serve them through Loris. They will be served at this URL:</p>
+		<p><tt>http://127.0.0.1:81/loris/synced/<i>&lt;name of your file&gt;</i></tt></p>
+	  </div>
+	  <div class="four columns">
+		<h3>Omeka</h3>
+		<a href="https://www.omeka.org"><img src="welcome/images/omeka-logo.gif" alt="Omeka"></a>
+		<p>Omeka is a content management system optimized for displaying library, museum, archival and scholarly collections. Build rich exhibits with its built-in exhibits builder and extend it with numerous free plugins and themes.</p>
+		<p>Click <a href="http://127.0.0.1:8080/omeka-main/admin">here</a> to start using your Omeka instance. The default credentials are:</p>
+		<p><tt>superuser / omekasuper</tt></p>
+	  </div>
+	  <div class="four columns">
+		<h3>IIIF Toolkit</h3>
+		<a href="https://github.com/utlib/IiifItems"><img src="welcome/images/iiif-toolkit-logo.png" alt="IIIF Toolkit"></a>
+		<p>IIIF Toolkit is a plugin that facilitates various IIIF-related operations in Omeka. Import IIIF content from existing sources, link uploaded images to Loris, and annotate and examine your content with Mirador viewer.</p>
+		<p>This plugin has been enabled and pre-configured for you by the installer. Sign into <a href="http://127.0.0.1:8080/omeka-main/admin">Omeka</a> to use.</p>
+	  </div>
+	</div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
