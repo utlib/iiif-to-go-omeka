@@ -1,24 +1,24 @@
 #!/bin/bash
-	
+
 # Update packages and install tools
 apt-get update -y
 apt-get install -y wget git unzip
 
 # Kakadu
 cd /usr/local/lib
-wget --no-check-certificate https://github.com/loris-imageserver/loris/raw/development/lib/Linux/x86_64/libkdu_v74R.so \
-	&& chmod 755 libkdu_v74R.so
+wget --no-check-certificate https://github.com/loris-imageserver/loris/raw/development/lib/Linux/x86_64/libkdu_v74R.so
+chmod 755 libkdu_v74R.so
 cd /usr/local/bin
-wget --no-check-certificate https://github.com/loris-imageserver/loris/raw/development/bin/Linux/x86_64/kdu_expand \
-	&& chmod 755 kdu_expand
-	
+wget --no-check-certificate https://github.com/loris-imageserver/loris/raw/development/bin/Linux/x86_64/kdu_expand
+chmod 755 kdu_expand
+
 # Python and image library dependencies
 apt-get install -y libjpeg8 libjpeg8-dev libfreetype6 libfreetype6-dev zlib1g-dev liblcms2-2 liblcms2-dev liblcms2-utils libtiff5-dev
-ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so /usr/lib/ \
-	&& ln -s /usr/lib/`uname -i`-linux-gnu/libjpeg.so /usr/lib/ \
-	&& ln -s /usr/lib/`uname -i`-linux-gnu/libz.so /usr/lib/ \
-	&& ln -s /usr/lib/`uname -i`-linux-gnu/liblcms.so /usr/lib/ \
-	&& ln -s /usr/lib/`uname -i`-linux-gnu/libtiff.so /usr/lib/
+ln -s /usr/lib/`uname -i`-linux-gnu/libfreetype.so /usr/lib/
+ln -s /usr/lib/`uname -i`-linux-gnu/libjpeg.so /usr/lib/
+ln -s /usr/lib/`uname -i`-linux-gnu/libz.so /usr/lib/
+ln -s /usr/lib/`uname -i`-linux-gnu/liblcms.so /usr/lib/
+ln -s /usr/lib/`uname -i`-linux-gnu/libtiff.so /usr/lib/
 echo "/usr/local/lib" >> /etc/ld.so.conf && ldconfig
 apt-get install -y python-dev python-setuptools python-pip
 pip install --upgrade pip
@@ -34,11 +34,11 @@ apt-get install -y libapache2-mod-wsgi
 
 # Loris packages
 cd /opt
-wget --no-check-certificate https://github.com/loris-imageserver/loris/archive/2.0.1.zip \
-	&& unzip 2.0.1.zip \
-	&& mv loris-2.0.1/ loris/ \
-	&& rm 2.0.1.zip
-	
+wget --no-check-certificate https://github.com/loris-imageserver/loris/archive/2.0.1.zip
+unzip 2.0.1.zip
+mv loris-2.0.1/ loris/
+rm 2.0.1.zip
+
 # Loris user
 useradd -d /var/www/loris2 -s /sbin/false loris
 
