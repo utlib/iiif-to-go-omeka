@@ -44,6 +44,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "setup/omeka.sh", args: ["/tmp/omeka_main.sql"]
   
   # Provision shared paths
-  # config.vm.synced_folder "web", "/var/www/html"
+  # config.vm.synced_folder "shared", "/home/vagrant"
   # config.vm.synced_folder "loris", "/usr/local/share/images/synced"
 end

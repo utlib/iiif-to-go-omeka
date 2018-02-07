@@ -5,5 +5,5 @@ thumbs.db
 loris/*
 !loris/.gitkeep
 
-web/*
-!web/.gitkeep
+shared/*
+!shared/.gitkeep
