@@ -10,7 +10,7 @@ wwwgroup="www-data"
 
 # Functions
 function usagehint {
-	echo "Usage: omekash (new|rm|clone <origslug>|log|update) <slug> [--branch <branch>] [--repo <repository>] [--no-loris]"
+	echo "Usage: omekash (new|rm|clone <origslug>|log|update|plug|unplug <plugin>|theme|untheme <theme>) <slug> [--branch <branch>] [--repo <repository>] [--url <url>] [--no-loris]"
 	exit 2
 }
 
@@ -257,6 +257,49 @@ function linkloris {
 	ln -s "$2/files/original" "$3/omeka-$1"
 }
 
+# extractto <source> <target>
+function extractto {
+	# Capture arguments
+	source="$1"
+	target="$2"
+	# If from an online source, download to temporary file
+	if [[ "$source" == http://* ]] || [[ "$source" == https://* ]]; then
+		fname=`mktemp`
+		rm -f "$fname"
+		fromlocal=0
+		wget -O "$fname" "$source"
+	# Otherwise, reference the local file directly
+	else
+		fname="$source"
+		fromlocal=1
+	fi
+	# Extract form the local file
+	extension="${source##*.}"
+	case "$extension" in
+		"zip")
+			unzip "$fname" -d "$target" || failed=1
+			;;
+		"tgz")
+			tar -xvzf "$fname" -C "$target" || failed=1
+			;;
+		"tar")
+			tar -xvf "$fname" -C "$target" || failed=1
+			;;
+		*)
+			echo "Unsupported extension \"$extension\". Expected zip, tgz or tar."
+			failed=1
+			;;
+	esac
+	# If from an online source, delete the temporary file
+	if [ -z $fromlocal ]; then
+		rm -f "$fname"
+	fi
+	# Exit if error
+	if [ ! -z "$failed" ]; then
+		exit 2
+	fi
+}
+
 # Capture required parameters
 if [ -z "$1" ] || [ -z "$2" ]; then
 	usagehint
@@ -289,6 +332,32 @@ case $verb in
 		slug=$2
 		shift
 		;;
+  "plug")
+		slug=$2
+		shift
+		;;
+	"unplug")
+		if [ -z "$3" ]; then
+			usagehint
+		fi
+		slug=$3
+		plugslug=$2
+		shift
+		shift
+		;;
+	"theme")
+		slug=$2
+		shift
+		;;
+	"untheme")
+		if [ -z "$3" ]; then
+			usagehint
+		fi
+		slug=$3
+		themeslug=$2
+		shift
+		shift
+		;;
 	*)
 		usagehint
 		;;
@@ -303,6 +372,7 @@ dbuser="omeka${slug}"
 dbpass="omeka${slug}root1108"
 branch="master"
 repo="https://github.com/omeka/Omeka.git"
+url=""
 useloris=1
 
 # Capture optional parameters
@@ -323,6 +393,13 @@ do
 				usagehint
 			fi
 			repo=$1
+			;;
+    "--url")
+			shift
+			if [ -z "$1" ]; then
+				usagehint
+			fi
+			url=$1
 			;;
 		"--no-loris")
 			shift
@@ -358,5 +435,39 @@ case $verb in
 		pushd "$targetdir" >/dev/null 2>&1
 		git pull
 		popd >/dev/null 2>&1
+		;;
+  "plug")
+		if [ ! -z "$url" ]; then
+			extractto "$url" "$targetdir/plugins"
+		elif [ ! -z "$repo" ]; then
+			pushd "$targetdir/plugins" > /dev/null
+			git clone "$repo" --branch "$branch" --recursive
+			popd > /dev/null
+		else
+			echo "You must specify a plugin download URL in a --url parameter, or a repository in a --repo parameter."
+			exit 2
+			failed=1
+		fi
+		;;
+	"unplug")
+		rm -Rf "$targetdir/plugins/$plugslug"
+		;;
+	"theme")
+		if [ ! -z "$url" ]; then
+			extractto "$url" "$targetdir/themes"
+		elif [ ! -z "$repo" ]; then
+			pushd "$targetdir/plugins" > /dev/null
+			git clone "$repo" --branch "$branch" --recursive
+			popd > /dev/null
+		else
+			echo "You must specify a theme download URL in a --url parameter, or a repository in a --repo parameter."
+			failed=1
+		fi
+		if [ ! -z "$failed" ]; then
+			exit 2
+		fi
+		;;
+	"untheme")
+		rm -Rf "$targetdir/themes/$themeslug"
 		;;
 esac
