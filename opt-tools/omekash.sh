@@ -51,13 +51,13 @@ function omekanew {
 
 	# Clone Omeka to target directory
 	>&2 echo "Downloading Omeka..."
-	git clone --branch "$branch" --recursive "$repo" "$targetdir" || fail
+	git clone -q --branch "$branch" --recursive "$repo" "$targetdir" || fail
 	>&2 echo "Omeka downloaded."
 	
 	# Add IIIF Toolkit
 	>&2 echo "Downloading IIIF Toolkit for Omeka..."
 	tmpdir=`mktemp -d`
-	git clone https://github.com/utlib/IiifItems.git --recursive "$tmpdir/IiifItems"
+	git clone -q https://github.com/utlib/IiifItems.git --recursive "$tmpdir/IiifItems"
 	mv -f "$tmpdir/IiifItems" "$targetdir/plugins"
 	rm -Rf "$tmpdir"
 
@@ -267,7 +267,7 @@ function extractto {
 		fname=`mktemp`
 		rm -f "$fname"
 		fromlocal=0
-		wget -O "$fname" "$source"
+		wget -q -O "$fname" "$source"
 	# Otherwise, reference the local file directly
 	else
 		fname="$source"
@@ -433,7 +433,7 @@ case $verb in
 		;;
 	"update")
 		pushd "$targetdir" >/dev/null 2>&1
-		git pull
+		git pull -q
 		popd >/dev/null 2>&1
 		;;
   "plug")
@@ -441,7 +441,7 @@ case $verb in
 			extractto "$url" "$targetdir/plugins"
 		elif [ ! -z "$repo" ]; then
 			pushd "$targetdir/plugins" > /dev/null
-			git clone "$repo" --branch "$branch" --recursive
+			git clone -q "$repo" --branch "$branch" --recursive
 			popd > /dev/null
 		else
 			echo "You must specify a plugin download URL in a --url parameter, or a repository in a --repo parameter."
@@ -457,7 +457,7 @@ case $verb in
 			extractto "$url" "$targetdir/themes"
 		elif [ ! -z "$repo" ]; then
 			pushd "$targetdir/plugins" > /dev/null
-			git clone "$repo" --branch "$branch" --recursive
+			git clone -q "$repo" --branch "$branch" --recursive
 			popd > /dev/null
 		else
 			echo "You must specify a theme download URL in a --url parameter, or a repository in a --repo parameter."

@@ -1,8 +1,10 @@
 #!/bin/bash
 # apache.sh
-	
+
+DEBIAN_FRONTEND=noninteractive
+
 # Update packages and install tools
-apt-get install -y apache2 php libapache2-mod-php php-curl php-mcrypt php7.0-gd php-imagick
+apt-get install -qqy apache2 php libapache2-mod-php php-curl php-mcrypt php7.0-gd php-imagick > /dev/null
 
 # Override /var/www/html properties
 echo '
