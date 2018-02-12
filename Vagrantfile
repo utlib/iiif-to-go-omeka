@@ -44,6 +44,9 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "setup/omeka.sh", args: ["/tmp/omeka_main.sql"]
   
   # Provision shared paths
-  # config.vm.synced_folder "shared", "/home/vagrant"
-  # config.vm.synced_folder "loris", "/usr/local/share/images/synced"
+  config.vm.synced_folder "shared", "/home/vagrant"
+  config.vm.synced_folder "loris", "/usr/local/share/images/synced"
+  
+  # Ask user to visit 127.0.0.1:8080
+  config.vm.post_up_message = "IIIF to Go is ready! Visit 127.0.0.1:8080 on your browser to get started."
 end
