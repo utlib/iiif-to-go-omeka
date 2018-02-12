@@ -2,7 +2,6 @@
 # apache.sh
 	
 # Update packages and install tools
-apt-get update -y
 apt-get install -y apache2 php libapache2-mod-php php-curl php-mcrypt php7.0-gd php-imagick
 
 # Override /var/www/html properties

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Update packages and install tools
-apt-get update -y
 apt-get install -y wget git unzip
 
 # Kakadu
