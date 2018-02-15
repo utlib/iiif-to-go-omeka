@@ -1,7 +1,8 @@
 #!/bin/bash
 # mysql.sh <password>
 
-DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
+echo "IIIF in a Box: Installing MySQL..."
 
 PASSWORD="$1"
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 
-DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
+echo "IIIF in a Box: Installing Loris..."
 
 # Update packages and install tools
 # apt-get install -qqy wget git unzip > /dev/null
@@ -36,7 +37,7 @@ apt-get install -qqy libapache2-mod-wsgi > /dev/null
 # Loris packages
 cd /opt
 wget -q --no-check-certificate https://github.com/loris-imageserver/loris/archive/2.0.1.zip
-unzip 2.0.1.zip
+unzip -qq 2.0.1.zip
 mv loris-2.0.1/ loris/
 rm 2.0.1.zip
 
@@ -45,8 +46,6 @@ useradd -d /var/www/loris2 -s /sbin/false loris
 
 # Image directory
 cd /opt/loris
-mkdir /usr/local/share/images
-mkdir /usr/local/share/images/synced
 
 # Install
 ./setup.py install > /dev/null
@@ -71,6 +70,6 @@ echo '<VirtualHost *:81>
 		Allow from all
 		Require all granted
 </Directory>' > sites-available/loris.conf
-a2enmod expires
-a2ensite loris
-service apache2 restart
+a2enmod expires > /dev/null
+a2ensite loris > /dev/null
+service apache2 restart > /dev/null

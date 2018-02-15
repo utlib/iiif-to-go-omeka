@@ -1,7 +1,8 @@
 #!/bin/bash
 # omeka.sh <seedsql>
 
-DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=noninteractive
+echo "IIIF in a Box: Installing seeded Omeka instance..."
 
 seedsql="$1"
 if [ ! -d /var/www/html/omeka-main ]; then
