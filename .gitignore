@@ -2,8 +2,8 @@
 .vagrant
 thumbs.db
 
-loris/*
+loris/
 !loris/.gitkeep
 
-shared/*
+shared/
 !shared/.gitkeep
