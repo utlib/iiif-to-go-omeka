@@ -22,25 +22,26 @@ Note: If you do not already have VirtualBox and Vagrant installed, please instal
 ## Installation
 
 * Clone this repository or download its zip file.
-* Run `start.bat` if you use Windows, or `start.sh` if you use Mac OS X or Ubuntu. Allow up to 10-15 minutes for box dependencies to download and set up.
+- Double-click the start file for your system (`start.bat` for Windows, `start.command` for Mac OS X, `start.sh` for Ubuntu).
+- Allow up several minutes for box dependencies to download and set up.
 
 If installation is successful, a browser window should appear notifying that IIIF in a Box is ready.
 
-*Advanced Usage: You can also start IIIF to Go using `vagrant up`. When it is done setting up, simply browse to `http://127.0.0.1:8080`.*
+*Command Line Usage: You can also start IIIF to Go using `vagrant up`. When it is done setting up, simply browse to `http://127.0.0.1:8080`.*
 
 ## Usage
 
-To begin, simply run `start.bat` if you use Windows, or `start.sh` if you use Mac OS X or Ubuntu. The box should start up within a minute. When it is done starting up, a browser window should appear notifying that IIIF in a Box is ready.
+To begin, simply run `start.bat` for Windows, `start.command` for Mac OS X, or `start.sh` for Ubuntu. The box should start up within a minute. When it is done starting up, a browser window should appear notifying that IIIF in a Box is ready.
 
-To end, simply run `stop.bat` if you use Windows, or `stop.sh` if you use Mac OS X or Ubuntu.
+To end, simply run `stop.bat` for Windows, `stop.command` for Mac OS X, or `stop.sh` for Ubuntu.
 
 *Command Line Usage: You can also start IIIF to Go using `vagrant up` and shut it down using `vagrant halt`.*
 
 ## Uninstallation
 
-Run `uninstall.bat` if you use Windows, or `uninstall.sh` if you use Mac OS X or Ubuntu. This will remove the VirtualBox image generated during installation.
+Run `uninstall.bat` if you use Windows, `uninstall.command` if you use Mac OS X or `uninstall.sh` if you use Ubuntu. This will remove the VirtualBox image generated during installation.
 
-*Command Line Usage: You can also start IIIF to Go using `vagrant destroy`.*
+*Command Line Usage: You can uninstall IIIF to Go using `vagrant destroy`.*
 
 ## License
 
