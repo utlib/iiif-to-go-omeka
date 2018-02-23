@@ -1,6 +1,6 @@
 # IIIF in a Box
 
-IIIF in a Box is a set of Vagrant scripts that set up portable VirtualBox images. These images can be used to easily create rich IIIF-based exhibits on the go, set up a workshop, or evaluate IIIF risk-free.
+IIIF in a Box is a set of Vagrant scripts that set up portable, fully functional IIIF virtual environments on your system. You can use IIIF in a Box to easily create rich IIIF-based exhibits on the go, set up a workshop, or evaluate IIIF risk-free.
 
 ## Bundled Software
 
@@ -21,6 +21,11 @@ Note: If you do not already have VirtualBox and Vagrant installed, please instal
 
 ## Installation
 
+* If VirtualBox is not installed, [download](https://www.virtualbox.org/wiki/Downloads) and install it.
+	* In the installer's "Custom Setup" step, ensure that "VirtualBox Networking" is set to be installed. 
+	* Restart your system after the installer finishes.
+	* [Download](https://www.virtualbox.org/wiki/Downloads) and install the extension pack of the same version.
+* If Vagrant is not installed, [download](https://www.vagrantup.com/downloads.html) and install it.
 * Clone this repository or download its zip file.
 - Double-click the start file for your system (`start.bat` for Windows, `start.command` for Mac OS X, `start.sh` for Ubuntu).
 - Allow up several minutes for box dependencies to download and set up.
