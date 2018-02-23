@@ -1,0 +1,140 @@
+.button.button-primary {
+  background: #00408c;
+  border-color: #00408c;
+}
+a {
+  color: #00408c;
+}
+.wrappableCode {
+  background: #F1F1F1;
+  padding: 5px 8px;
+  border: 1px solid #E1E1E1;
+  font-family: monospace;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.splash {
+  padding: 2rem 0rem 5rem 0rem;
+  text-align: center;
+  background: aliceblue;
+  height: 25.5vw;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+.splash .text, .splash .graphic {
+  width: 30%;
+  max-width: 550px;
+}
+.splash h2.subtitle {
+  padding-top: 2rem;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+}
+.splash .text {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.splash .graphic {
+  height: 100%;
+  
+}
+.splash .graphic .logo {
+  /* margin-top: 10rem; */
+  width: 100%;
+}
+.splash .graphic .arrow {
+  width: 20%;
+  -webkit-animation: shimmy 2s infinite;
+          animation: shimmy 2s infinite;
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+}
+@-webkit-keyframes shimmy {
+  0% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  100% {
+    -webkit-transform: translate(0px, 50px);
+            transform: translate(0px, 50px);
+  }
+}
+
+@keyframes shimmy {
+  0% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  100% {
+    -webkit-transform: translate(0px, 50px);
+            transform: translate(0px, 50px);
+  }
+}
+
+.breakdown {
+  border-top: 1px solid #dddddd;
+  padding: 5rem 0rem;
+}
+.breakdown h1 {
+  padding-bottom: 2rem;
+}
+.breakdown h2 {
+  font-size: 3rem;
+  text-align: center;
+}
+.breakdown .logo {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.breakdown .logo img.loris, .breakdown .logo img.omeka {
+  width: 150px;
+}
+.breakdown .logo img.toolkit {
+  width: 250px;
+}
+
+@media (max-width: 900px) {
+  .splash {
+    height: 32vw;
+  }
+  .splash .text, .splash .graphic {
+    width: 40%;
+  }
+  .breakdown .logo img.loris, .breakdown .logo img.omeka {
+    width: 80%;
+  }
+  .breakdown .logo img.toolkit {
+    width: 90%;
+  }
+}
+@media (max-width: 550px) {
+  .breakdown .logo img.loris, .breakdown .logo img.omeka {
+    width: 80%;
+    max-width: 200px;
+  }
+  .breakdown .logo img.toolkit {
+    width: 90%;
+    max-width: 200px;
+  }
+}
+.getStarted {
+  padding: 5rem 0rem;
+}
+.getStarted h2 {
+  font-size: 3rem;
+}
+.footer {
+  background: aliceblue;
+  padding: 5rem 0rem;
+  text-align: center;
+  font-size: 1.5rem;
+}
+.footer .links {
+  letter-spacing: 1rem;
+  padding-bottom: 1rem;
+}
