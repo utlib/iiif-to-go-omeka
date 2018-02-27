@@ -134,7 +134,18 @@ a {
   text-align: center;
   font-size: 1.5rem;
 }
+.footer .flex {
+  display: flex;
+  justify-content: space-between;
+}
+.footer .flex>div {
+  width: 50%;
+}
+.footer .uoft {
+  text-align: left;
+}
 .footer .links {
   letter-spacing: 1rem;
   padding-bottom: 1rem;
+  text-align: right;
 }
