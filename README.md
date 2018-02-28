@@ -45,7 +45,7 @@ To end, simply run `stop.bat` for Windows, `stop.command` for Mac OS X, or `stop
 
 Run `uninstall.bat` if you use Windows, `uninstall.command` if you use Mac OS X or `uninstall.sh` if you use Ubuntu. This will remove the VirtualBox image generated during installation.
 
-*Command Line Usage: You can uninstall IIIF to Go using `vagrant destroy`.*
+*Command Line Usage: You can uninstall IIIF to Go using `vagrant destroy`. If you wish to see diagnostic output while the box is starting up, run `vagrant up --debug`.*
 
 ## License
 

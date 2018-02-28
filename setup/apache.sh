@@ -5,7 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 echo "IIIF in a Box: Installing Apache..."
 
 # Update packages and install tools
-apt-get install -qqy apache2 php libapache2-mod-php php-curl php-mcrypt php7.0-gd php-imagick > /dev/null
+apt-get install -qqy apache2 php libapache2-mod-php php-curl php-mcrypt php7.0-gd php-imagick > /dev/null 2>&1
 
 # Override /var/www/html properties
 echo '
@@ -26,5 +26,5 @@ echo '
 	</Directory>
 </VirtualHost>
 ' > /etc/apache2/sites-available/000-default.conf
-a2enmod rewrite > /dev/null
-service apache2 restart > /dev/null
+a2enmod rewrite > /dev/null 2>&1
+service apache2 restart > /dev/null 2>&1
