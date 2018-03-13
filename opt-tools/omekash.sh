@@ -10,7 +10,7 @@ wwwgroup="www-data"
 
 # Functions
 function usagehint {
-	echo "Usage: omekash (new|rm|clone <origslug>|log|update|plug|unplug <plugin>|theme|untheme <theme>) <slug> [--branch <branch>] [--repo <repository>] [--url <url>] [--no-loris]"
+	echo "Usage: omekash (new|rm|clone <origslug>|log|update|plug|unplug <plugin>|theme|untheme <theme>|archive <zipname>|restore <zipname>) <slug> [--branch <branch>] [--repo <repository>] [--url <url>] [--no-loris]"
 	exit 2
 }
 
@@ -252,6 +252,149 @@ function omekaclone {
 	>&2 echo "DONE"
 }
 
+# omekaarchive <slug> <targetdir> <filename>
+function omekaarchive {
+	# Capture arguments
+	slug=$1
+	targetdir=$2
+	filename=$3
+	if [[ "${filename:0:1}" != "/" ]]; then
+		filename="`pwd`/$filename"
+	fi
+
+	# Stop if the target does not exist
+	if [ ! -d "$targetdir" ]; then
+		>&2 echo "The target directory ${targetdir} does not exist."
+		fail
+	fi
+
+	# Make temporary directory
+	tempdir=`mktemp -d`
+	mkdir "${tempdir}/omekapickle" || fail
+
+	# Copy installation
+	>&2 echo -n "Copying Omeka installation... "
+	ln -s "$targetdir" "${tempdir}/omekapickle/omeka" || fail
+	>&2 echo "DONE"
+
+	# Dump SQL
+	>&2 echo -n "Dumping SQL... "
+	mysqldump "omeka_${slug}" -u "$rootuser" --password="$rootpass" > "${tempdir}/omekapickle/main.sql" || fail
+	mysqldump "omeka_${slug}_test" -u "$rootuser" --password="$rootpass" > "${tempdir}/omekapickle/test.sql" || fail
+	>&2 echo "DONE"
+
+	# Create zip at filename
+	>&2 echo -n "Creating archive... "
+	pushd "${tempdir}/omekapickle" > /dev/null
+	zip -r9q "$filename" . || { popd; fail; }
+	popd > /dev/null
+	>&2 echo "DONE"
+
+	# Remove temporary
+	>&2 echo -n "Cleaning up... "
+	rm -Rf "$tempdir"
+
+	# Done archiving
+	>&2 echo "DONE"
+}
+
+# omekarestore <slug> <targetdir> <filename> <dbusername> <dbpassword>
+function omekarestore {
+	# Capture arguments
+	slug=$1
+	targetdir=$2
+	filename=$3
+	dbusername=$4
+	dbpassword=$5
+
+	# Stop if the target already exists
+	if [ -d "$targetdir" ]; then
+		>&2 echo "The target directory ${targetdir} already exists."
+		fail
+	fi
+
+	# Make temporary directory
+	tempdir=`mktemp -d`
+
+	# Unzip contents
+	>&2 echo -n "Unzipping... "
+	extractto "$filename" "$tempdir" || fail
+	>&2 echo "DONE"
+
+	# Generate new user
+	>&2 echo -n "Creating new MySQL database and user... "
+	sqlfile=`mktemp`
+	echo "CREATE DATABASE omeka_${slug};" >> $sqlfile
+	echo "CREATE DATABASE omeka_${slug}_test;" >> $sqlfile
+	echo "CREATE USER ${dbusername} IDENTIFIED BY '"${dbpassword}"';" >> $sqlfile
+	echo "GRANT ALL ON omeka_${slug}.* TO ${dbusername};" >> $sqlfile
+	echo "GRANT ALL ON omeka_${slug}_test.* TO ${dbusername};" >> $sqlfile
+	echo "FLUSH PRIVILEGES;" >> $sqlfile
+	mysql -u "$rootuser" --password="$rootpass" < $sqlfile || fail
+	rm -f "$sqlfile"
+	>&2 echo "DONE"
+
+	# Import the SQL files
+	>&2 echo -n "Importing databases... "
+	mysql "omeka_${slug}" -u "$dbusername" --password="$dbpassword" < "${tempdir}/main.sql" || fail
+	mysql "omeka_${slug}_test" -u "$dbusername" --password="$dbpassword" < "${tempdir}/test.sql" || fail
+	>&2 echo "DONE"
+
+	# Move the extracted Omeka instance
+	>&2 echo -n "Moving Omeka into position... "
+	mv -f "${tempdir}/omeka" "$targetdir" || fail
+	>&2 echo "DONE"
+
+	# Start configuring Omeka
+	>&2 echo -n "Reconfiguring Omeka... "
+
+	# Fill db.ini
+	dbini="${targetdir}/db.ini"
+	: > $dbini
+	echo '[database]' >> $dbini
+	echo 'host="localhost"' >> $dbini
+	echo "username=\"${dbusername}\"" >> $dbini
+	echo "password=\"${dbpassword}\"" >> $dbini
+	echo "dbname=\"omeka_${slug}\"" >> $dbini
+	echo 'prefix="omeka_"' >> $dbini
+	echo 'charset="utf8"' >> $dbini
+
+	# Fill .htaccess
+	rm -f "${targetdir}/.htaccess" || fail
+	cp -p "${targetdir}/.htaccess.changeme" "${targetdir}/.htaccess" || fail
+	echo 'SetEnv APPLICATION_ENV development' >> "${targetdir}/.htaccess"
+
+	# Fill tests/config.ini
+	testsconfig="${targetdir}/application/tests/config.ini"
+	teststemp="/tmp/omeka_${slug}_test"
+	mkdir $teststemp
+	: > $testsconfig
+	echo '[testing]' >> $testsconfig
+	echo 'db.host="localhost"' >> $testsconfig
+	echo "db.username=\"${dbusername}\"" >> $testsconfig
+	echo "db.password=\"${dbpassword}\"" >> $testsconfig
+	echo "db.dbname=\"omeka_${slug}_test\"" >> $testsconfig
+	echo 'paths.imagemagick="/usr/bin"' >> $testsconfig
+	echo "paths.tempDir=\"${teststemp}\"" >> $testsconfig
+	echo '[site]' >> $testsconfig
+	echo 'debug.exceptions=0' >> $testsconfig
+	echo 'debug.request=0' >> $testsconfig
+	echo 'log.sql=0' >> $testsconfig
+	echo 'log.errors=0' >> $testsconfig
+	echo 'jobs.dispatcher.default="Omeka_Job_Dispatcher_Adapter_Synchronous"' >> $testsconfig
+	echo 'locale=""' >> $testsconfig
+
+	# Set permissions
+	chown -R "${wwwuser}:${wwwgroup}" "$targetdir"
+	
+	# Remove temporary
+	>&2 echo -n "Cleaning up... "
+	rm -Rf "$tempdir"
+
+	# Done restoring
+	>&2 echo "DONE"
+}
+
 # linkloris <slug> <targetdir> <lorisdir>
 function linkloris {
 	ln -s "$2/files/original" "$3/omeka-$1"
@@ -332,7 +475,7 @@ case $verb in
 		slug=$2
 		shift
 		;;
-  "plug")
+	"plug")
 		slug=$2
 		shift
 		;;
@@ -355,6 +498,24 @@ case $verb in
 		fi
 		slug=$3
 		themeslug=$2
+		shift
+		shift
+		;;
+	"archive")
+		if [ -z "$3" ]; then
+			usagehint
+		fi
+		slug=$3
+		zipname=$2
+		shift
+		shift
+		;;
+	"restore")
+		if [ -z "$3" ]; then
+			usagehint
+		fi
+		slug=$3
+		zipname=$2
 		shift
 		shift
 		;;
@@ -394,7 +555,7 @@ do
 			fi
 			repo=$1
 			;;
-    "--url")
+		"--url")
 			shift
 			if [ -z "$1" ]; then
 				usagehint
@@ -436,7 +597,7 @@ case $verb in
 		git pull -q
 		popd >/dev/null 2>&1
 		;;
-  "plug")
+	"plug")
 		if [ ! -z "$url" ]; then
 			extractto "$url" "$targetdir/plugins"
 		elif [ ! -z "$repo" ]; then
@@ -469,5 +630,14 @@ case $verb in
 		;;
 	"untheme")
 		rm -Rf "$targetdir/themes/$themeslug"
+		;;
+	"archive")
+		omekaarchive "$slug" "$targetdir" "$zipname"
+		;;
+	"restore")
+		omekarestore "$slug" "$targetdir" "$zipname" "$dbuser" "$dbpass"
+		if [ ! -z $useloris ]; then
+			linkloris $slug $targetdir $lorisroot
+		fi
 		;;
 esac
