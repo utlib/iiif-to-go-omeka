@@ -57,7 +57,7 @@ function omekanew {
 	# Add IIIF Toolkit
 	>&2 echo "Downloading IIIF Toolkit for Omeka..."
 	tmpdir=`mktemp -d`
-	git clone -q https://github.com/utlib/IiifItems.git --recursive "$tmpdir/IiifItems"
+	git clone -q https://github.com/utlib/IiifItems.git --branch v1.1.0 --recursive "$tmpdir/IiifItems" 
 	mv -f "$tmpdir/IiifItems" "$targetdir/plugins"
 	rm -Rf "$tmpdir"
 
