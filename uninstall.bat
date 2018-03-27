@@ -1,3 +1,5 @@
 @echo off
-vagrant destroy
 
+pushd "%~dp0"
+vagrant destroy
+popd
