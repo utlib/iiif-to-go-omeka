@@ -4,6 +4,9 @@
 # Vagrant configuration header: DO NOT CHANGE
 Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-16.04"
+  
+  # Uncomment this line when packaging the box!
+  # config.ssh.insert_key = false
 
   # Forwarded ports
   config.vm.network "forwarded_port", guest: 80, host: 8080
@@ -44,8 +47,8 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "setup/omeka.sh", args: ["/tmp/omeka_main.sql"]
   
   # Provision shared paths
-  config.vm.synced_folder "shared", "/home/vagrant"
-  config.vm.synced_folder "loris", "/usr/local/share/images/synced"
+  config.vm.synced_folder "shared", "/home/vagrant/shared", create: true
+  config.vm.synced_folder "loris", "/usr/local/share/images/synced", create: true
   
   # Ask user to visit 127.0.0.1:8080
   config.vm.post_up_message = "IIIF to Go is ready! Visit 127.0.0.1:8080 on your browser to get started."

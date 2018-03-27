@@ -7,3 +7,5 @@ loris/
 
 shared/
 !shared/.gitkeep
+
+package.box

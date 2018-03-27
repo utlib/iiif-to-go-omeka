@@ -1,0 +1,16 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrant configuration header: DO NOT CHANGE
+Vagrant.configure("2") do |config|
+  # Forwarded ports
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 81, host: 8181
+  
+  # Provision shared paths
+  config.vm.synced_folder "shared", "/home/vagrant/shared", create: true
+  config.vm.synced_folder "loris", "/usr/local/share/images/synced", create: true
+  
+  # Ask user to visit 127.0.0.1:8080
+  config.vm.post_up_message = "IIIF to Go is ready! Visit 127.0.0.1:8080 on your browser to get started."
+end
