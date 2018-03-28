@@ -193,6 +193,8 @@ function omekaclone {
 	>&2 echo -n "Copying MySQL databases... "
 	mysqldump "omeka_${origslug}" -u "$rootuser" --password="$rootpass" | mysql "omeka_${slug}" -u "$rootuser" --password="$rootpass" || fail
 	mysqldump "omeka_${origslug}_test" -u "$rootuser" --password="$rootpass" | mysql "omeka_${slug}_test" -u "$rootuser" --password="$rootpass" || fail
+	echo "UPDATE omeka_options SET value = 'http://127.0.0.1:8181/loris/omeka-${slug}/{FULLNAME}' WHERE name = 'iiifitems_bridge_prefix';" | mysql "omeka_${slug}" -u "$rootuser" --password="$rootpass" || fail
+    echo "UPDATE omeka_options SET value = 'http://127.0.0.1:8080/omeka-${slug}/plugins/IiifItems/views/shared/js/mirador' WHERE name = 'iiifitems_mirador_path';" | mysql "omeka_${slug}" -u "$rootuser" --password="$rootpass" || fail
 	>&2 echo "DONE"
 	
 	# Copy directories
@@ -338,6 +340,8 @@ function omekarestore {
 	>&2 echo -n "Importing databases... "
 	mysql "omeka_${slug}" -u "$dbusername" --password="$dbpassword" < "${tempdir}/main.sql" || fail
 	mysql "omeka_${slug}_test" -u "$dbusername" --password="$dbpassword" < "${tempdir}/test.sql" || fail
+	echo "UPDATE omeka_options SET value = 'http://127.0.0.1:8181/loris/omeka-${slug}/{FULLNAME}' WHERE name = 'iiifitems_bridge_prefix';" | mysql "omeka_${slug}" -u "$dbusername" --password="$dbpassword" || fail
+    echo "UPDATE omeka_options SET value = 'http://127.0.0.1:8080/omeka-${slug}/plugins/IiifItems/views/shared/js/mirador' WHERE name = 'iiifitems_mirador_path';" | mysql "omeka_${slug}" -u "$dbusername" --password="$dbpassword" || fail
 	>&2 echo "DONE"
 
 	# Move the extracted Omeka instance
@@ -420,13 +424,13 @@ function extractto {
 	extension="${source##*.}"
 	case "$extension" in
 		"zip")
-			unzip "$fname" -d "$target" || failed=1
+			unzip -qq "$fname" -d "$target" || failed=1
 			;;
 		"tgz")
-			tar -xvzf "$fname" -C "$target" || failed=1
+			tar -xzf "$fname" -C "$target" || failed=1
 			;;
 		"tar")
-			tar -xvf "$fname" -C "$target" || failed=1
+			tar -xf "$fname" -C "$target" || failed=1
 			;;
 		*)
 			echo "Unsupported extension \"$extension\". Expected zip, tgz or tar."
