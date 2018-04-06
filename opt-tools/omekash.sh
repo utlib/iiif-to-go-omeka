@@ -102,6 +102,9 @@ function omekanew {
 	echo 'jobs.dispatcher.default="Omeka_Job_Dispatcher_Adapter_Synchronous"' >> $testsconfig
 	echo 'locale=""' >> $testsconfig
 
+	# Create the logs
+	touch "${targetdir}/application/logs/errors.log"
+	
 	# Set permissions
 	chown -R "${wwwuser}:${wwwgroup}" "$targetdir"
 	
@@ -199,7 +202,7 @@ function omekaclone {
 	
 	# Copy directories
 	>&2 echo -n "Copying Omeka Installation... "
-	cp -Rf $origdir $targetdir || fail
+	cp -Rfp $origdir $targetdir || fail
 	>&2 echo "DONE"
 	
 	# Start configuring Omeka
@@ -244,6 +247,12 @@ function omekaclone {
 	echo 'log.errors=0' >> $testsconfig
 	echo 'jobs.dispatcher.default="Omeka_Job_Dispatcher_Adapter_Synchronous"' >> $testsconfig
 	echo 'locale=""' >> $testsconfig
+	
+	# Create the logs
+	touch "${targetdir}/application/logs/errors.log"
+	
+	# Set permissions
+	chown -R "${wwwuser}:${wwwgroup}" "$targetdir"
 	
 	# Done configuring Omeka
 	>&2 echo "DONE"
@@ -388,6 +397,9 @@ function omekarestore {
 	echo 'jobs.dispatcher.default="Omeka_Job_Dispatcher_Adapter_Synchronous"' >> $testsconfig
 	echo 'locale=""' >> $testsconfig
 
+	# Create the logs
+	touch "${targetdir}/application/logs/errors.log"
+	
 	# Set permissions
 	chown -R "${wwwuser}:${wwwgroup}" "$targetdir"
 	
