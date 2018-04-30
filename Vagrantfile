@@ -21,11 +21,12 @@ Vagrant.configure("2") do |config|
   # Set up 
   config.vm.provision "shell", path: "setup/boot.sh"
   
-  # Upload command line tools
-  config.vm.provision "file", source: "opt-tools/omekash.sh", destination: "/home/vagrant/omekash"
+  # Download command line tools
   config.vm.provision "shell", inline: <<-SHELL
-	mv /home/vagrant/omekash /usr/local/bin
-	chmod +x /usr/local/bin/omekash
+	git clone https://github.com/utlib/omekash.git --branch fork-iiif-items /home/vagrant/omekash
+	mv /home/vagrant/omekash/omekash /opt/omekash
+	chmod +x /opt/omekash
+	rm -Rf /home/vagrant/omekash
   SHELL
   
   # Provision Apache from root
