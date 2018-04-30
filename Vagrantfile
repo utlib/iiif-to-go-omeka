@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-16.04"
   
   # Uncomment this line when packaging the box!
-  # config.ssh.insert_key = false
+  config.ssh.insert_key = false
 
   # Forwarded ports
   config.vm.network "forwarded_port", guest: 80, host: 8080
@@ -30,10 +30,10 @@ Vagrant.configure("2") do |config|
   
   # Provision Apache from root
   config.vm.provision "shell", path: "setup/apache.sh"
-  config.vm.provision "file", source: "webseed", destination: "/home/vagrant/webseed"
+  config.vm.provision "file", source: "splash", destination: "/home/vagrant/splash"
   config.vm.provision "shell", inline: <<-SHELL
-	cp -Rpf /home/vagrant/webseed/* /var/www/html
-	rm -Rf /home/vagrant/webseed
+	cp -Rpf /home/vagrant/splash/* /var/www/html
+	rm -Rf /home/vagrant/splash
   SHELL
   
   # Provision MySQL from root
