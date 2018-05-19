@@ -57,36 +57,24 @@ While IIIF to Go is started, you can run administrative commands on it by runnin
 
 Once you are logged into IIIF to Go, you can use the `omekash` shell tool to manage Omeka instances. Here is a list of commands (the default `sudo` credentials are `vagrant / vagrant`):
 
-- `sudo omekash new <name>`: Set up a new named Omeka instance. You will need 
-to visit `http://127.0.0.1:8080/omeka-<name>/install/install.php` to 
-initialize its parameters.
-  - `--branch <branch>`: Specify the branch to check out Omeka from. 
-Default: `master`
-  - `--repo <repository>`: Specify the repository to check out Omeka 
-from. Default: `https://github.com/omeka/Omeka.git`
-  - `--download <url>`: Use a download URL to a zip or tarball file 
-instead of Git. 
-- `sudo omekash rm <name>`: Remove the named Omeka instance.
-- `sudo omekash clone <oldname> <newname>`: Make an exact copy of the named 
-Omeka instance.
-- `omekash log <name>`: Show the logs for the given Omeka instance.
-- `sudo omekash plug <name> <url>`: Download and add a plugin from the given 
-URL to the named Omeka instance. The URL may be a Git repository, zip 
-file or tarball file.
-- `sudo omekash unplug <name> <plugin-name>`: Directly remove a plugin from the 
-named Omeka instance. * Warning: Make sure to uninstall the plugin 
-first! *
-- `sudo omekash theme <name> <url>`: Download and add a theme from the given 
-URL to the named Omeka instance. The URL may be a Git repository, zip 
-file or tarball file.
-- `sudo omekash untheme <name> <theme-name>`: Directly remove a theme from the 
-named Omeka instance. * Warning: Make sure that the theme is not 
-currently used! *
-- `omekash archive <zipname> <name>`: Save the given Omeka instance and its
-associated database in the given zip file.
-- `sudo omekash restore <zipname> <name>`: Restore the Omeka instance archived
-in the given zip file to the new name. The new instance can be accessed at
-`http://127.0.0.1:8080/omeka-<name>`.
+- `sudo omekash new <slug>`: Set up a new named Omeka instance. You will need to visit `http://127.0.0.1:8080/omeka-<slug>/install/install.php` to initialize its parameters.
+  - `--branch <branch>`: Specify the branch to check out Omeka from. Default: `master`
+  - `--repo <repository>`: Specify the repository to check out Omeka from. Default: `https://github.com/omeka/Omeka.git`
+  - `--url <url>`: Use a download URL to a zip or tarball file instead of Git.
+- `sudo omekash rm <slug>`: Remove the named Omeka instance.
+- `sudo omekash clone <oldslug> <newslug>`: Make a copy of the named Omeka instance.
+- `sudo omekash plug <slug>`: Download and add a plugin to the named Omeka instance. You must provide either a `--repo` or `--url` parameter, but not both.
+  - `--branch <branch>`: Specify the branch to check out the plugin from. Can only be used with `--repo`. Default: `master`
+  - `--repo <repository>`: Specify the repository to check out the plugin from.
+  - `--url <url>`: Specify the URL to a zip or tarball file to download the plugin from.
+- `sudo omekash unplug <slug> <plugin-name>`: Directly remove a plugin from the named Omeka instance. *Warning: Make sure to uninstall the plugin first!*
+- `sudo omekash theme <slug>`: Download and add a theme from the given URL to the named Omeka instance. You must provide either a `--repo` or `--url` parameter, but not both.
+  - `--branch <branch>`: Specify the branch to check out the theme from. Can only be used with `--repo`. Default: `master`
+  - `--repo <repository>`: Specify the repository to check out the theme from.
+  - `--url <url>`: Specify the URL to a zip or tarball file to download the theme from.
+- `sudo omekash untheme <slug> <theme-name>`: Directly remove a theme from the named Omeka instance. *Warning: Make sure that the theme is not currently used!*
+- `sudo omekash archive <zipname> <slug>`: Save the given Omeka instance and its associated database in the given zip file.
+- `sudo omekash restore <zipname> <slug>`: Restore the Omeka instance archived in the given zip file (can be a local path or a download URL) to the new name. The new instance can be accessed at `http://127.0.0.1:8080/omeka-<newslug>`.
 
 ## Uninstallation
 
