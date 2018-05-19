@@ -1,0 +1,4 @@
+source omekash-loris-route
+if [ -L "${lorisroot}/omeka-${slug}" ]; then
+	rm -f "${lorisroot}/omeka-${slug}"
+fi

@@ -1,0 +1,7 @@
+source omekash-loris-route
+ln -s "${targetdir}/files/original" "${lorisroot}/omeka-${slug}" || fail
+>&2 echo -n "Downloading IIIF Toolkit... "
+tmpdir=`mktemp -d`
+git clone -qq https://github.com/utlib/IiifItems.git --branch v1.1.0 --recursive "$tmpdir/IiifItems" > /dev/null 2>&1 
+mv -f "$tmpdir/IiifItems" "$targetdir/plugins"
+rm -Rf "$tmpdir"

@@ -1,0 +1,7 @@
+source omekash-loris-route
+ln -s "${targetdir}/files/original" "${lorisroot}/omeka-${slug}" || fail
+>&2 echo -n "Adjusting IIIF Toolkit settings... "
+ln -s "${targetdir}/files/original" "${lorisroot}/omeka-${slug}" || fail
+echo "UPDATE omeka_options SET value = 'http://127.0.0.1:8181/loris/omeka-${slug}/{FULLNAME}' WHERE name = 'iiifitems_bridge_prefix';" | mysql "omeka_${slug}" -u "$rootuser" --password="$rootpass" || fail
+echo "UPDATE omeka_options SET value = 'http://127.0.0.1:8080/omeka-${slug}/plugins/IiifItems/views/shared/js/mirador' WHERE name = 'iiifitems_mirador_path';" | mysql "omeka_${slug}" -u "$rootuser" --password="$rootpass" || fail
+>&2 echo "DONE"
