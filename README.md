@@ -5,7 +5,7 @@ IIIF to Go is a set of Vagrant scripts that set up portable, fully functional II
 ## Bundled Software
 
 * [Omeka Classic 2.6](http://omeka.org/classic/)
-* [Loris 2.0](https://github.com/loris-imageserver/loris)
+* [Loris 2.3](https://github.com/loris-imageserver/loris)
 * [IIIF Toolkit 1.1.0](https://github.com/utlib/IiifItems)
 
 ## System Requirements
