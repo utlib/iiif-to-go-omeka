@@ -23,7 +23,6 @@ ln -s /usr/lib/`uname -i`-linux-gnu/liblcms.so /usr/lib/
 ln -s /usr/lib/`uname -i`-linux-gnu/libtiff.so /usr/lib/
 echo "/usr/local/lib" >> /etc/ld.so.conf && ldconfig
 apt-get install -qqy python-dev python-setuptools python-pip > /dev/null 2>&1
-pip install -qq --upgrade pip pip==9.0.3 > /dev/null 2>&1
 pip uninstall -qq PIL > /dev/null 2>&1
 pip uninstall -qq Pillow > /dev/null 2>&1
 apt-get purge -qq python-imaging > /dev/null 2>&1
@@ -36,10 +35,11 @@ apt-get install -qqy libapache2-mod-wsgi > /dev/null 2>&1
 
 # Loris packages
 cd /opt
-wget -q --no-check-certificate https://github.com/loris-imageserver/loris/archive/2.0.1.zip
-unzip -qq 2.0.1.zip > /dev/null 2>&1
-mv loris-2.0.1/ loris/
-rm 2.0.1.zip
+wget -q --no-check-certificate https://github.com/loris-imageserver/loris/archive/v2.3.3.zip
+unzip -qq v2.3.3.zip > /dev/null 2>&1
+mv loris-2.3.3/ loris/
+rm v2.3.3.zip
+
 
 # Loris user
 useradd -d /var/www/loris2 -s /sbin/false loris
