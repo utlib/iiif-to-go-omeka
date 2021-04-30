@@ -13,7 +13,7 @@ echo "IIIF in a Box: Installing Loris..."
 # cd /usr/local/bin
 # wget -q --no-check-certificate https://github.com/loris-imageserver/loris/raw/development/bin/Linux/x86_64/kdu_expand
 # chmod 755 kdu_expand
-apt-get install -qqy libopenjp2-tools
+apt-get install -qqy libopenjp2-tools > /dev/null 2>&1
 
 # Python and image library dependencies
 apt-get install -qqy libjpeg8 libjpeg8-dev libfreetype6 libfreetype6-dev zlib1g-dev liblcms2-2 liblcms2-dev liblcms2-utils libtiff5-dev libffi-dev > /dev/null 2>&1
