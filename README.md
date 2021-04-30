@@ -4,25 +4,25 @@ IIIF to Go is a set of Vagrant scripts that set up portable, fully functional II
 
 ## Bundled Software
 
-* [Omeka Classic 2.6](http://omeka.org/classic/)
-* [Loris 2.3](https://github.com/loris-imageserver/loris)
+* [Omeka Classic 2.8](http://omeka.org/classic/)
+* [Loris 3.2.1](https://github.com/loris-imageserver/loris)
 * [IIIF Toolkit 1.1.0](https://github.com/utlib/IiifItems)
 
 ## System Requirements
 
-* Windows 7 or higher / Mac OS X El Capitan or higher / Ubuntu 14.04 LTS or higher
+* Windows 10 or higher / Mac OS X Catalina or higher / Ubuntu 20.04 LTS or higher
 * At least 4GB available hard drive space
 * 4GB RAM total or more, at least 2GB available
-* VirtualBox 5.1.30+ or 5.2.6+ or above ([link](https://www.virtualbox.org/))
-* Vagrant 2.0.2 or above ([link](https://www.vagrantup.com))
+* VirtualBox 6.1+ or above ([link](https://www.virtualbox.org/))
+* Vagrant 2.2.15 or above ([link](https://www.vagrantup.com))
 	* (Windows only) [WMF 4.0](https://www.microsoft.com/en-ca/download/details.aspx?id=40855) or above
-	
+
 Note: If you do not already have VirtualBox and Vagrant installed, please install VirtualBox first and Vagrant second.
 
 ## Installation
 
 * If VirtualBox is not installed, [download](https://www.virtualbox.org/wiki/Downloads) and install it.
-	* In the installer's "Custom Setup" step, ensure that "VirtualBox Networking" is set to be installed. 
+	* In the installer's "Custom Setup" step, ensure that "VirtualBox Networking" is set to be installed.
 	* Restart your system after the installer finishes.
 * If Vagrant is not installed, [download](https://www.vagrantup.com/downloads.html) and install it.
 * Clone this repository or download its zip file.
@@ -53,7 +53,7 @@ To import an Omeka archive as a new Omeka instance, move the zip archive into th
 
 ## SSH Access and the`omekash` Shell Tool
 
-While IIIF to Go is started, you can run administrative commands on it by running `ssh.bat` for Windows, `ssh.command` for Mac OS X, or `ssh.sh` for Ubuntu, or `vagrant ssh` from your command prompt. 
+While IIIF to Go is started, you can run administrative commands on it by running `ssh.bat` for Windows, `ssh.command` for Mac OS X, or `ssh.sh` for Ubuntu, or `vagrant ssh` from your command prompt.
 
 Once you are logged into IIIF to Go, you can use the `omekash` shell tool to manage Omeka instances. Here is a list of commands (the default `sudo` credentials are `vagrant / vagrant`):
 
