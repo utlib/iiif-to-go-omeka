@@ -1,3 +1,9 @@
 Vagrantfile text eol=lf
 *.sh text eol=lf
 *.bat text eol=crlf
+omekash-after-clone text eol=lf
+omekash-after-new text eol=lf
+omekash-after-restore text eol=lf
+omekash-after-rm text eol=lf
+omekash-config text eol=lf
+omekash-loris-route text eol=lf
